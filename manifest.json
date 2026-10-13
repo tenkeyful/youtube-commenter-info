@@ -3,7 +3,7 @@
   "name": "YouTube Commenter Info",
   "version": "1.7.6",
   "description": "Displays YouTube comments' information and more below their handles.",
-  "author": "Nhân Trí",
+  "author": "winedows",
   "homepage_url": "https://github.com/tenkeyful/youtube-commenter-info",
   "content_scripts": [
     {
