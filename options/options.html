@@ -1,193 +1,159 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Options</title>
-  <style>
-    :root{
-      --bg: #ffffff;
-      --fg: #15141a;
-      --muted: #6b6b71;
-      --card-bg: #f9f9fb;
-      --card-border: rgba(0,0,0,0.06);
-      --radius: 10px;
-      --gap-md: 16px;
-      --container-max: 500px;
-      --shadow: 0 6px 18px rgba(15,15,20,0.04);
-    }
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1" />
+		<title>Options</title>
+		<style>
+			:root {
+				--bg: #ffffff;
+				--fg: #15141a;
+				--muted: #6b6b71;
+				--card-bg: #f9f9fb;
+				--card-border: rgba(0, 0, 0, 0.06);
+				--radius: 10px;
+				--gap-md: 16px;
+				--container-max: 500px;
+				--shadow: 0 6px 18px rgba(15, 15, 20, 0.04);
+			}
 
-    html,body{
-      margin:0;
-      padding:20px;
-      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-      background: var(--bg);
-      color: var(--fg);
-      display:block;
-      align-items:flex-start;
-      justify-content:center;
-      max-height: auto;
-      box-sizing:border-box;
-      overflow: hidden;
-    }
+			html,
+			body {
+				margin: 0;
+				padding: 20px;
+				font-family:
+					system-ui,
+					-apple-system,
+					"Segoe UI",
+					Roboto,
+					"Helvetica Neue",
+					Arial;
+				background: var(--bg);
+				color: var(--fg);
+				display: block;
+				align-items: flex-start;
+				justify-content: center;
+				max-height: auto;
+				box-sizing: border-box;
+				overflow: hidden;
+			}
 
-    .container{
-      width:100%;
-      max-width:var(--container-max);
-      margin: 0 auto;
-      display:grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      grid-auto-rows: auto;
-      gap: var(--gap-md);
-      align-items: start;
-    }
+			.container {
+				width: 100%;
+				max-width: var(--container-max);
+				margin: 0 auto;
+				display: grid;
+				grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+				grid-auto-rows: auto;
+				gap: var(--gap-md);
+				align-items: stretch;
+			}
 
-    .card{
-      background: var(--card-bg);
-      border-radius: var(--radius);
-      padding: 14px;
-      border: 1px solid var(--card-border);
-      box-shadow: var(--shadow);
-      box-sizing: border-box;
-      min-width: 0;
-    }
+			/* Column 6 + 7 (im sorry it's a coincidence, if only badges aren't big i would've merged into one column) */
+			.stack {
+				display: grid;
+				gap: var(--gap-md);
+				align-content: start;
+				min-width: 0;
+			}
 
-    .card h3{
-      margin:0 0 10px 0;
-      font-size:1rem;
-      font-weight:700;
-      color:var(--fg);
-    }
+			.card {
+				background: var(--card-bg);
+				border-radius: var(--radius);
+				padding: 14px;
+				border: 1px solid var(--card-border);
+				box-shadow: var(--shadow);
+				box-sizing: border-box;
+				min-width: 0;
+			}
 
-    .checkbox-item{
-      display:flex;
-      align-items:center;
-      gap:12px;
-      padding:6px 0;
-    }
+			.card h3 {
+				margin: 0 0 10px 0;
+				font-size: 1rem;
+				font-weight: 700;
+				color: var(--fg);
+			}
 
-    .checkbox-item input[type="checkbox"]{
-      width:18px;
-      height:18px;
-      margin:0;
-      cursor:pointer;
-      flex: 0 0 auto;
-    }
+			.checkbox-item {
+				display: flex;
+				align-items: center;
+				gap: 12px;
+				padding: 6px 0;
+			}
 
-    .symbol {
-      margin-left: auto;
-    }
+			.checkbox-item input[type="checkbox"] {
+				width: 18px;
+				height: 18px;
+				margin: 0;
+				cursor: pointer;
+				flex: 0 0 auto;
+			}
 
-    @media (prefers-color-scheme: dark){
-      :root{
-        --bg:#1c1b22;
-        --fg:#fbfbfe;
-        --muted:#bdbcc2;
-        --card-bg:#23222a;
-        --card-border:#444;
-        --shadow: 0 6px 18px rgba(0,0,0,0.6);
-      }
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <div class="card">
-      <h3>Column 1</h3>
-      <div class="checkbox-item">
-        <input type="checkbox" id="subscriberCount" checked>
-        <label for="subscriberCount">Subscriber Count</label>
-        <span class="symbol">🕭</span>
-      </div>
-      <div class="checkbox-item">
-        <input type="checkbox" id="location" checked>
-        <label for="location">Location</label>
-        <span class="symbol">🗺</span>
-      </div>
-      <div class="checkbox-item">
-        <input type="checkbox" id="joinedDate" checked>
-        <label for="joinedDate">Joined Date</label>
-        <span class="symbol">🗓</span>
-      </div>
-    </div>
+			.symbol {
+				margin-left: auto;
+			}
 
-    <div class="card">
-      <h3>Column 2</h3>
-      <div class="checkbox-item">
-        <input type="checkbox" id="totalVideos" checked>
-        <label for="totalVideos">Total Videos</label>
-        <span class="symbol">📽</span>
-      </div>
-      <div class="checkbox-item">
-        <input type="checkbox" id="totalViewCount" checked>
-        <label for="totalViewCount">Total View Count</label>
-        <span class="symbol">👁</span>
-      </div>
-      <div class="checkbox-item">
-        <input type="checkbox" id="playlists" checked>
-        <label for="playlists">Playlists</label>
-        <span class="symbol">𝄞</span>
-      </div>
-    </div>
+			@media (prefers-color-scheme: dark) {
+				:root {
+					--bg: #1c1b22;
+					--fg: #fbfbfe;
+					--muted: #bdbcc2;
+					--card-bg: #23222a;
+					--card-border: #444;
+					--shadow: 0 6px 18px rgba(0, 0, 0, 0.6);
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<div class="container">
+			<div
+				class="card"
+				style="
+					display: flex;
+					align-items: center;
+					gap: 34px;
+					grid-column: 1 / -1;
+				"
+			>
+				<h3 style="margin: 0">Position</h3>
+				<div style="display: flex; gap: 24px; align-items: center">
+					<div class="checkbox-item" style="margin-bottom: 0">
+						<input
+							type="radio"
+							id="positionBelow"
+							name="infoBoxPosition"
+							value="below"
+							checked
+						/>
+						<label for="positionBelow">Below handle</label>
+					</div>
+					<div class="checkbox-item" style="margin-bottom: 0">
+						<input
+							type="radio"
+							id="positionAdjacent"
+							name="infoBoxPosition"
+							value="adjacent"
+						/>
+						<label for="positionAdjacent">Next to handle</label>
+					</div>
+				</div>
+			</div>
 
-    <div class="card">
-      <h3>Column 3</h3>
-      <div class="checkbox-item">
-        <input type="checkbox" id="latestVideo" checked>
-        <label for="latestVideo">Latest Video</label>
-        <span class="symbol">▷</span>
-      </div>
-      <div class="checkbox-item">
-        <input type="checkbox" id="latestShorts" checked>
-        <label for="latestShorts">Latest Shorts</label>
-        <span class="symbol">🎞</span>
-      </div>
-      <div class="checkbox-item">
-        <input type="checkbox" id="latestLivestream" checked>
-        <label for="latestLivestream">Latest Livestream</label>
-        <span class="symbol">◉</span>
-      </div>
-    </div>
+			<div
+				style="
+					grid-column: 1 / -1;
+					color: var(--muted);
+					padding: 10px 8px;
+					text-align: center;
+				"
+			>
+				Refresh YouTube tab after changing options. <br />
+				Your selection is automatically saved.
+			</div>
+		</div>
 
-    <div class="card">
-      <h3>Column 4</h3>
-      <div class="checkbox-item">
-        <input type="checkbox" id="description" checked>
-        <label for="description">Description</label>
-        <span class="symbol">🖍</span>
-      </div>
-      <div class="checkbox-item">
-        <input type="checkbox" id="externalLinks" checked>
-        <label for="externalLinks">External Links</label>
-        <span class="symbol">🖇</span>
-      </div>
-      <div class="checkbox-item">
-        <input type="checkbox" id="businessEmail" checked>
-        <label for="businessEmail">Business Email</label>
-        <span class="symbol">✉︎</span>
-      </div>
-    </div>
-
-    <div class="card" style="display: flex; align-items: center; gap: 34px; grid-column: 1 / -1;">
-      <h3 style="margin: 0">Position</h3>
-      <div style="display: flex; gap: 24px; align-items: center;">
-        <div class="checkbox-item" style="margin-bottom: 0;">
-          <input type="radio" id="positionBelow" name="infoBoxPosition" value="below" checked>
-          <label for="positionBelow">Below handle</label>
-        </div>
-        <div class="checkbox-item" style="margin-bottom: 0;">
-          <input type="radio" id="positionAdjacent" name="infoBoxPosition" value="adjacent">
-          <label for="positionAdjacent">Next to handle</label>
-        </div>
-      </div>
-    </div>
-
-    <div style="grid-column: 1 / -1; color:var(--muted); padding:10px 8px; text-align: center;">
-      Refresh YouTube tab after changing options. <br>
-      Your selection is automatically saved.
-    </div>
-  </div>
-
-  <script src="options.js"></script>
-</body>
+		<script src="../settings.js"></script>
+		<script src="options.js"></script>
+	</body>
 </html>

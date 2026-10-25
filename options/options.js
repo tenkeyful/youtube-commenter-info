@@ -1,92 +1,106 @@
-// default settings
-const defaultSettings = {
-  // first column
-  subscriberCount: true,
-  location: true,
-  joinedDate: true,
+const container = document.querySelector(".container");
 
-  // second column
-  totalVideos: true,
-  totalViewCount: true,
-  playlists: true,
+function createCard(column) {
+	const card = document.createElement("div");
+	card.className = "card";
 
-  // third column
-  latestVideo: true,
-  latestShorts: true,
-  latestLivestream: true,
+	const title = document.createElement("h3");
+	title.textContent = column.title;
+	card.appendChild(title);
 
-  // fourth column
-  description: true,
-  externalLinks: true,
-  businessEmail: true,
+	for (const item of column.items) {
+		const row = document.createElement("div");
+		row.className = "checkbox-item";
 
-  // position
-  infoBoxPosition: 'below'
-};
+		const checkbox = document.createElement("input");
+		checkbox.type = "checkbox";
+		checkbox.id = item.key;
+		checkbox.setAttribute("checked", ""); // on until the saved value is loaded
 
-// load settings from storage
-function loadSettings() {
-  browser.storage.sync.get(defaultSettings).then((settings) => {
-    Object.keys(defaultSettings).forEach(key => {
-      const checkbox = document.getElementById(key);
-      if (checkbox) {
-        if (checkbox.type === 'checkbox') {
-          checkbox.checked = settings[key];
-        } else if (checkbox.type === 'radio') {
-          checkbox.checked = (checkbox.value === settings[key]);
-        }
-      }
-    });
-    if (settings.infoBoxPosition === 'adjacent') {
-      document.getElementById('positionAdjacent').checked = true;
-    } else {
-      document.getElementById('positionBelow').checked = true;
-    }
-  });
+		const label = document.createElement("label");
+		label.htmlFor = item.key;
+		label.textContent = item.label;
+
+		const symbol = document.createElement("span");
+		symbol.className = "symbol";
+		symbol.textContent = item.symbol;
+
+		row.append(checkbox, label, symbol);
+		card.appendChild(row);
+	}
+	return card;
 }
 
-// save settings to storage
+function createCards() {
+	const cells = []; // each cell is a list of cards
+	for (const column of Settings.columns) {
+		const card = createCard(column);
+		if (column.stackWithPrevious && cells.length > 0) {
+			cells[cells.length - 1].push(card);
+		} else {
+			cells.push([card]);
+		}
+	}
+
+	return cells.map((cards) => {
+		if (cards.length === 1) return cards[0];
+		const stack = document.createElement("div");
+		stack.className = "stack";
+		stack.append(...cards);
+		return stack;
+	});
+}
+
+const checkboxes = () =>
+	Array.from(document.querySelectorAll('input[type="checkbox"]'));
+
+// shows the saved values
+async function showSavedSettings() {
+	const saved = await Settings.load();
+	checkboxes().forEach((checkbox) => {
+		checkbox.checked = saved[checkbox.id];
+	});
+
+	const position =
+		saved.infoBoxPosition === Settings.POSITIONS.NEXT_TO_HANDLE
+			? "positionAdjacent"
+			: "positionBelow";
+	document.getElementById(position).checked = true;
+}
+
 function saveSettings() {
-  const settings = {};
-  Object.keys(defaultSettings).forEach(key => {
-    const checkbox = document.getElementById(key);
-    if (checkbox) {
-      if (checkbox.type === 'checkbox') {
-        settings[key] = checkbox.checked;
-      } else if (checkbox.type === 'radio' && checkbox.checked) {
-        settings[key] = checkbox.value;
-      }
-    }
-  });
-  const pos = document.querySelector('input[name="infoBoxPosition"]:checked');
-  if (pos) settings.infoBoxPosition = pos.value;
+	const values = {};
+	checkboxes().forEach((checkbox) => {
+		values[checkbox.id] = checkbox.checked;
+	});
 
-  browser.storage.sync.set(settings);
+	const position = document.querySelector(
+		'input[name="infoBoxPosition"]:checked',
+	);
+	if (position) values.infoBoxPosition = position.value;
+
+	Settings.save(values);
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  loadSettings();
+document.addEventListener("DOMContentLoaded", () => {
+	container.prepend(...createCards());
+	showSavedSettings();
 
-  const allCheckboxes = Object.keys(defaultSettings)
-  .filter(key => {
-    const el = document.getElementById(key);
-    return el && el.type === 'checkbox';
-  })
-  .map(key => document.getElementById(key));
+	// at least one checkbox must always stay checked
+	checkboxes().forEach((checkbox) => {
+		checkbox.addEventListener("change", (event) => {
+			const anyChecked = checkboxes().some((other) => other.checked);
+			if (!event.target.checked && !anyChecked) {
+				event.target.checked = true;
+				return;
+			}
+			saveSettings();
+		});
+	});
 
-  // at least 1 checkbox must always be checked
-  allCheckboxes.forEach(checkbox => {
-    checkbox.addEventListener('change', function (e) {
-      const checkedCount = allCheckboxes.filter(cb => cb.checked).length;
-      if (!e.target.checked && checkedCount === 0) {
-        e.target.checked = true;
-        return;
-      }
-      saveSettings();
-    });
-  });
-
-  document.querySelectorAll('input[name="infoBoxPosition"]').forEach(radio => {
-    radio.addEventListener('change', saveSettings);
-  });
+	document
+		.querySelectorAll('input[name="infoBoxPosition"]')
+		.forEach((radio) => {
+			radio.addEventListener("change", saveSettings);
+		});
 });

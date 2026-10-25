@@ -1,10 +1,27 @@
-.yt-enhanced-info-item {
-    font-weight: normal !important;
-    font-size: normal !important;
-    line-height: normal !important;
-    padding: normal !important;
-    margin: normal !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    vertical-align: middle !important;
+/* every box under a comment */
+.yt-cmt-info-box {
+	font-weight: normal !important;
+	font-size: normal !important;
+	line-height: normal !important;
+	padding: normal !important;
+	margin: normal !important;
+	display: inline-flex !important;
+	align-items: center !important;
+	vertical-align: middle !important;
+}
+
+/*
+Position: Next to handle
+every box flows in one horizontal line and wraps onto the next line
+*/
+.yt-cmt-info-inline {
+	align-items: flex-start !important;
+}
+.yt-cmt-info-inline > div {
+	display: contents !important;
+}
+
+/* centered text inside the Recent comments / Subscriptions popups */
+.yt-cmt-info-center {
+	text-align: center;
 }
