@@ -1,3 +1,6 @@
+> [!NOTE]
+> This codebase is a dumpster fire mess 🫩
+
 Shows information as boxes about a commenter under (or next to) their name on YouTube, in up to seven columns:
 
 | Column | Shows                                         | Comes from                    |
